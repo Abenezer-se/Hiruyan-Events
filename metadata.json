@@ -1,0 +1,6 @@
+{
+  "name": "Hiruyan Event Platform",
+  "description": "Production-ready Event Management System with advanced dashboards, organizer tools, attendee check-in with QR codes, dynamic notifications, and interactive map location system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
