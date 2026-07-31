@@ -72,6 +72,9 @@ export const api = {
 
   // Categories
   getCategories: () => fetchApi<{ categories: Category[] }>('/api/categories'),
+  createCategory: (body: Partial<Category>) => fetchApi<{ category: Category }>('/api/categories', { method: 'POST', body: JSON.stringify(body) }),
+  updateCategory: (id: string, body: Partial<Category>) => fetchApi<{ category: Category }>(`/api/categories/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
+  deleteCategory: (id: string) => fetchApi<{ message: string }>(`/api/categories/${id}`, { method: 'DELETE' }),
 
   // Location Geocoding
   searchLocation: (query: string) => fetchApi<{ results: any[] }>(`/api/location/search?q=${encodeURIComponent(query)}`),

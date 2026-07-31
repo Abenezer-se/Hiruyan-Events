@@ -308,6 +308,38 @@ app.get('/api/categories', (req: Request, res: Response) => {
   return res.json({ categories: db.getCategories() });
 });
 
+app.post('/api/categories', authenticateToken, requireAdmin, (req: AuthRequest, res: Response) => {
+  try {
+    const { name, icon, description } = req.body;
+    if (!name) return res.status(400).json({ error: 'Category name is required' });
+    const category = db.createCategory({ name, icon: icon || 'Calendar', description: description || '' });
+    return res.status(201).json({ category });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || 'Create category failed' });
+  }
+});
+
+app.put('/api/categories/:id', authenticateToken, requireAdmin, (req: AuthRequest, res: Response) => {
+  try {
+    const { name, icon, description } = req.body;
+    const category = db.updateCategory(req.params.id, { name, icon, description });
+    if (!category) return res.status(404).json({ error: 'Category not found' });
+    return res.json({ category });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || 'Update category failed' });
+  }
+});
+
+app.delete('/api/categories/:id', authenticateToken, requireAdmin, (req: AuthRequest, res: Response) => {
+  try {
+    const success = db.deleteCategory(req.params.id);
+    if (!success) return res.status(404).json({ error: 'Category not found' });
+    return res.json({ message: 'Category deleted successfully' });
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message || 'Delete category failed' });
+  }
+});
+
 // POST /api/upload - Handle file / URL image uploads
 app.post('/api/upload', authenticateToken, (req: AuthRequest, res: Response) => {
   try {

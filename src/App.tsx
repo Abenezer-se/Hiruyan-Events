@@ -37,6 +37,7 @@ import { AdminDashboard } from './pages/admin/AdminDashboard.tsx';
 import { AdminCmsBuilder } from './pages/admin/AdminCmsBuilder.tsx';
 import { AdminUsersManager } from './pages/admin/AdminUsersManager.tsx';
 import { AdminEventsManager } from './pages/admin/AdminEventsManager.tsx';
+import { AdminCategoriesManager } from './pages/admin/AdminCategoriesManager.tsx';
 import { AdminMarketingManager } from './pages/admin/AdminMarketingManager.tsx';
 import { AdminLogsViewer } from './pages/admin/AdminLogsViewer.tsx';
 
@@ -210,8 +211,11 @@ export default function App() {
                     {(currentRoute === '/admin/users' || currentRoute === '/admin/organizers' || currentRoute === '/admin/attendees' || currentRoute === '/admin/roles') && (
                       <AdminUsersManager />
                     )}
-                    {(currentRoute === '/admin/events' || currentRoute === '/admin/categories') && (
+                    {currentRoute === '/admin/events' && (
                       <AdminEventsManager onNavigate={navigateTo} />
+                    )}
+                    {currentRoute === '/admin/categories' && (
+                      <AdminCategoriesManager />
                     )}
                     {(currentRoute === '/admin/coupons' || currentRoute === '/admin/sponsors' || currentRoute === '/admin/testimonials' || currentRoute === '/admin/faqs' || currentRoute === '/admin/contact-messages' || currentRoute === '/admin/newsletter') && (
                       <AdminMarketingManager />
@@ -222,10 +226,10 @@ export default function App() {
                   </>
                 )}
 
-                {/* 2. ORGANIZER DASHBOARD SPACE */}
-                {user.role === 'organizer' && (
+                {/* 2. ORGANIZER / ADMIN EVENT CREATION DASHBOARD SPACE */}
+                {(user.role === 'organizer' || user.role === 'admin') && (
                   <>
-                    {(currentRoute === '/dashboard' || currentRoute === '/dashboard/my-events') && (
+                    {user.role === 'organizer' && (currentRoute === '/dashboard' || currentRoute === '/dashboard/my-events') && (
                       <OrganizerEventsPage
                         onNavigate={navigateTo}
                         onSelectEvent={handleSelectEvent}
@@ -233,14 +237,14 @@ export default function App() {
                     )}
                     {currentRoute === '/dashboard/create-event' && (
                       <CreateEditEventPage
-                        onBack={() => navigateTo('/dashboard/my-events')}
+                        onBack={() => navigateTo(user.role === 'admin' ? '/admin/events' : '/dashboard/my-events')}
                         onNavigate={navigateTo}
                       />
                     )}
                     {currentRoute.startsWith('/dashboard/edit-event/') && (
                       <CreateEditEventPage
                         eventId={currentRoute.split('/')[3]}
-                        onBack={() => navigateTo('/dashboard/my-events')}
+                        onBack={() => navigateTo(user.role === 'admin' ? '/admin/events' : '/dashboard/my-events')}
                         onNavigate={navigateTo}
                       />
                     )}

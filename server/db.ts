@@ -529,6 +529,46 @@ class JsonDatabase {
     return true;
   }
 
+  // --- Categories ---
+  getCategories(): Category[] {
+    return this.data.categories || [];
+  }
+  createCategory(catData: { name: string; icon?: string; description?: string }): Category {
+    const slug = catData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const category: Category = {
+      id: `cat-${Date.now()}`,
+      name: catData.name,
+      slug,
+      icon: catData.icon || 'Folder',
+      description: catData.description || '',
+    };
+    if (!this.data.categories) this.data.categories = [];
+    this.data.categories.push(category);
+    this.save();
+    return category;
+  }
+  updateCategory(id: string, updates: Partial<Category>): Category | undefined {
+    if (!this.data.categories) return undefined;
+    const cat = this.data.categories.find(c => c.id === id);
+    if (!cat) return undefined;
+    if (updates.name) {
+      cat.name = updates.name;
+      cat.slug = updates.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    }
+    if (updates.icon !== undefined) cat.icon = updates.icon;
+    if (updates.description !== undefined) cat.description = updates.description;
+    this.save();
+    return cat;
+  }
+  deleteCategory(id: string): boolean {
+    if (!this.data.categories) return false;
+    const idx = this.data.categories.findIndex(c => c.id === id);
+    if (idx === -1) return false;
+    this.data.categories.splice(idx, 1);
+    this.save();
+    return true;
+  }
+
   // --- CMS & Settings ---
   getCmsSettings(): CmsSettings {
     return this.data.cms;
@@ -731,12 +771,6 @@ class JsonDatabase {
 
   getSecurityLogs(): SecurityLog[] {
     return this.data.securityLogs;
-  }
-
-
-  // --- Categories ---
-  getCategories(): Category[] {
-    return this.data.categories;
   }
 
   // --- Events ---
