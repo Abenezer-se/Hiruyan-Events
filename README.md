@@ -1,12 +1,12 @@
 # HIRUYAN EVENT PLATFORM
 
-Modern Event Management System built with **Laravel, SQLite, Tailwind CSS, and Leaflet Maps**.
+Modern Event Management System built with **React, TypeScript, Vite, Tailwind CSS, SQLite API backend, and Leaflet Maps**.
 
-The platform allows organizers to create and manage events, attendees to register and receive QR tickets, and administrators to manage the entire website through a dynamic CMS without editing code.
+HIRUYAN Event Platform allows organizers to create and manage events, attendees to register and receive QR tickets, and administrators to manage the entire website through a dynamic CMS without editing code.
 
 ---
 
-## 🌍 Live Features
+## 🌍 Features
 
 - Public event marketplace
 - Organizer dashboard
@@ -25,14 +25,21 @@ The platform allows organizers to create and manage events, attendees to registe
 
 # 🚀 Tech Stack
 
-- **Backend:** Laravel 12+
-- **Frontend:** Blade + Tailwind CSS + Alpine.js
-- **Database:** SQLite
-- **Maps:** Leaflet + OpenStreetMap
-- **Build Tool:** Vite
-- **Authentication:** Laravel Breeze / Jetstream
-- **QR Codes:** Simple QR Code package
-- **Deployment:** Vercel
+## Frontend
+
+- React 19+
+- TypeScript (.tsx)
+- Vite
+- Tailwind CSS
+- React Router
+- Axios / Fetch API
+- Leaflet + OpenStreetMap
+
+## Backend API
+
+- Node.js / Express API
+- SQLite database
+- JWT Authentication
 
 ---
 
@@ -202,14 +209,14 @@ The system automatically assigns a matching default avatar, which can later be r
 
 # 🔐 Security
 
-- CSRF protection
-- XSS protection
-- SQL injection prevention
-- Rate limiting
-- Secure file uploads
+- JWT authentication
 - Role-based access control
-- Audit logs
+- Protected routes
+- Input validation
+- Secure file uploads
+- Rate limiting
 - Password hashing
+- Activity logging
 
 ---
 
@@ -234,96 +241,61 @@ git clone https://github.com/your-username/hiruyan-event-platform.git
 cd hiruyan-event-platform
 ```
 
-## 2. Install PHP Dependencies
-
-```bash
-composer install
-```
-
-## 3. Install Node Dependencies
+## 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-## 4. Copy Environment File
+## 3. Create Environment File
 
-```bash
-cp .env.example .env
-```
+Create a `.env` file in the project root.
 
-## 5. Generate Application Key
-
-```bash
-php artisan key:generate
-```
-
-## 6. Configure SQLite
-
-Create the database file:
-
-```bash
-touch database/database.sqlite
-```
-
-Update `.env`:
+Example:
 
 ```env
-DB_CONNECTION=sqlite
-DB_DATABASE=/absolute/path/to/database/database.sqlite
+VITE_API_URL=http://localhost:5000/api
 ```
 
-## 7. Run Migrations
-
-```bash
-php artisan migrate
-```
-
-## 8. Seed Default Admin
-
-```bash
-php artisan db:seed
-```
-
-## 9. Start Development Server
-
-```bash
-php artisan serve
-```
-
-## 10. Start Vite
+## 4. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Open: `http://127.0.0.1:8000`
+Open: `http://localhost:5173`
 
 ---
 
-# 🔑 Default Admin Account
+# 🏗️ Build for Production
 
-```text
-Email: admin@hiruyan.com
-Password: ChangeMe123!
+```bash
+npm run build
 ```
 
-⚠️ Change the password immediately after first login.
+Preview production build:
+
+```bash
+npm run preview
+```
 
 ---
 
 # 📁 Project Structure
 
 ```text
-app/
-bootstrap/
-config/
-database/
-public/
-resources/
-routes/
-storage/
-tests/
+src/
+ ├── components/
+ ├── pages/
+ ├── layouts/
+ ├── routes/
+ ├── hooks/
+ ├── context/
+ ├── services/
+ ├── types/
+ ├── utils/
+ ├── assets/
+ └── App.tsx
 ```
 
 ---
@@ -336,27 +308,29 @@ tests/
 npm run build
 ```
 
+## Output Directory
+
+```text
+dist
+```
+
 ## Environment Variables
 
 Set in Vercel dashboard:
 
-- APP_NAME
-- APP_ENV
-- APP_KEY
-- APP_URL
-- DB_CONNECTION=sqlite
-- DB_DATABASE=/tmp/database.sqlite
+- `VITE_API_URL`
 
-Include a proper `vercel.json` configuration for Laravel deployment.
+Deploy directly from GitHub.
 
 ---
 
-# 🧪 Testing
-
-Run tests:
+# 🧪 Available Scripts
 
 ```bash
-php artisan test
+npm run dev
+npm run build
+npm run preview
+npm run lint
 ```
 
 ---
